@@ -50,6 +50,10 @@ public class JwtUtil {
         return extractAllClaims(token).getExpiration().before(new Date());
 
     }
+    public Boolean validateToken(String token,String email){
+        final String extractedEmail=extractEmail(token);
+        return (extractedEmail.equals(email)&&!isTokenExpired(token));
+    }
 
 
 }
