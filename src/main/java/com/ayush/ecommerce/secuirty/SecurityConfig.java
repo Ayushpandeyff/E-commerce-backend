@@ -20,7 +20,8 @@ public class SecurityConfig {
         http.csrf(csrf->csrf.disable()).sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ).authorizeHttpRequests(auth->auth.
-                requestMatchers("/api/users/register","/api/users/login")
+                requestMatchers("/api/users/register","/api/users/login",
+                        "/swagger-ui/**","/v3/api-docs/**")
                 .permitAll().anyRequest().authenticated()
         ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
          return http.build();
