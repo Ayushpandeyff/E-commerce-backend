@@ -24,7 +24,7 @@ public class Product {
     @NotNull
     @Column(nullable = false)
     private Long price;
-
+    @NotNull
     @Column(nullable = false)
     private Integer stock;
     @Column(nullable = false)

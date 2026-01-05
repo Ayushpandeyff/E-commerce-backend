@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @PreAuthorize("hasAnyRole('SUPPLIER','ADMIN')")
     @PostMapping("/createProduct")
     public ResponseEntity<Product>createProduct(@Valid @RequestBody ProductCreateDTO dto){
         Product product=new Product();
@@ -39,5 +41,17 @@ public class ProductController {
 Product product= productService.getProductById(productId);
 return new ResponseEntity<>(product,HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ADMIN')")
+@DeleteMapping("/{productId}")
+    public ResponseEntity<Void>deleteProduct(@PathVariable  Long productId){
+        productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
+}
+@PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
+@PutMapping("/{productId}")
+    public ResponseEntity<Product>updateProduct(@PathVariable Long  productId,@Valid @RequestBody ProductCreateDTO productCreateDTO ){
+        Product product=productService.updateProduct(productId,productCreateDTO);
+        return new ResponseEntity<>(product,HttpStatus.OK);
+}
 
 }
