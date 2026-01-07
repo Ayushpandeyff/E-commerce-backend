@@ -43,7 +43,7 @@ try{
                     new UsernamePasswordAuthenticationToken(
                             email,
                             null,
-                            Collections.emptyList()
+                            Collections.singletonList(authority)
                     );
 
             authenticationToken.setDetails(
